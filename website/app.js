@@ -13,7 +13,7 @@ const postData = async(url = '', data = {}) =>
 {
     console.log(data);
     const response = await fetch (url, {
-        Method: 'POST',
+        method: 'POST',
         credentials: 'same-origin',
         headers: {
             'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ document.getElementById('generate').addEventListener('click', function(event)
     
     .then(function(data)
     {
-        postData('http:/localhost:8000/add',{date: newDate, content: feel, temp: data.main.temp});
+        postData('http://localhost:8000/add',{date: newDate, content: feel, temp: data.main.temp});
     })
     .then(
         updateUI()
@@ -65,22 +65,19 @@ document.getElementById('generate').addEventListener('click', function(event)
 
 });
 
-const updateUI = async () => 
+const updateUI = async() => 
 {
-    const request = await fetch('http:/localhost:8000/newData')
+    const request = await fetch('http://localhost:8000/newData');
     try
     {
-        const allData = await request.json();
-        document.getElementById('date').innerHTML=allData.date;
-        document.getElementById('temp').innerHTML=allData.temp;
-        document.getElementById('content').innerHTML=allData.content;
+        let allData = await request.json();
+        document.getElementById('date').innerHTML="date: "+allData.date;
+        document.getElementById('temp').innerHTML="temp: "+allData.temp+"K";
+        document.getElementById('content').innerHTML="feel: "+allData.content;
     }
     catch(error)
     {
         console.log("error",error);
     }
 }
-
-
-//api.openweathermap.org/data/2.5/weather?zip={zip code},{country code}&appid={your api key}
 
